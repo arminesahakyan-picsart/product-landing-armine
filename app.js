@@ -182,6 +182,7 @@ function initModal() {
     const modalBackdrop = modal?.querySelector('.modal-backdrop');
     const modalClose = modal?.querySelector('.modal-close');
     const openButtons = document.querySelectorAll('[data-open-modal="cta-modal"]');
+    const form = document.getElementById('cta-form');
     
     if (!modal) return;
     
@@ -205,12 +206,73 @@ function initModal() {
         document.body.style.overflow = '';
         
         // Reset form
-        const form = modal.querySelector('form');
         if (form) {
             form.reset();
-            form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
-            form.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            clearErrors();
         }
+    }
+    
+    // Clear all form errors
+    function clearErrors() {
+        form.querySelectorAll('input').forEach(input => {
+            input.classList.remove('error');
+        });
+        form.querySelectorAll('.error-message').forEach(msg => {
+            msg.textContent = '';
+        });
+    }
+    
+    // Validate email format
+    function isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+    
+    // Show error for a field
+    function showError(input, message) {
+        input.classList.add('error');
+        const errorEl = input.parentElement.querySelector('.error-message');
+        if (errorEl) {
+            errorEl.textContent = message;
+        }
+    }
+    
+    // Clear error for a field
+    function clearError(input) {
+        input.classList.remove('error');
+        const errorEl = input.parentElement.querySelector('.error-message');
+        if (errorEl) {
+            errorEl.textContent = '';
+        }
+    }
+    
+    // Validate form
+    function validateForm() {
+        const nameInput = form.querySelector('#name');
+        const emailInput = form.querySelector('#email');
+        let isValid = true;
+        
+        clearErrors();
+        
+        // Validate name
+        if (!nameInput.value.trim()) {
+            showError(nameInput, 'Name is required');
+            isValid = false;
+        } else if (nameInput.value.trim().length < 2) {
+            showError(nameInput, 'Name must be at least 2 characters');
+            isValid = false;
+        }
+        
+        // Validate email
+        if (!emailInput.value.trim()) {
+            showError(emailInput, 'Email is required');
+            isValid = false;
+        } else if (!isValidEmail(emailInput.value.trim())) {
+            showError(emailInput, 'Please enter a valid email address');
+            isValid = false;
+        }
+        
+        return isValid;
     }
     
     // Open modal button clicks
@@ -237,6 +299,79 @@ function initModal() {
             closeModal();
         }
     });
+    
+    // Form submission
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (validateForm()) {
+                // Form is valid - show success
+                const formData = {
+                    name: form.querySelector('#name').value.trim(),
+                    email: form.querySelector('#email').value.trim()
+                };
+                
+                console.log('Form submitted:', formData);
+                
+                // Show success message (replace form content temporarily)
+                const modalContent = modal.querySelector('.modal-content');
+                const originalContent = modalContent.innerHTML;
+                
+                modalContent.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px;">
+                        <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h2 style="font-size: 24px; font-weight: 700; color: #171717; margin-bottom: 12px;">Welcome aboard!</h2>
+                        <p style="font-size: 16px; color: #737373; margin-bottom: 24px;">Check your email for next steps to start your AI hairstyle transformation.</p>
+                        <button class="btn btn-primary" onclick="location.reload()">Got it!</button>
+                    </div>
+                `;
+                
+                // Auto close after 3 seconds
+                setTimeout(() => {
+                    closeModal();
+                    modalContent.innerHTML = originalContent;
+                    // Re-initialize form event listener would be needed in production
+                }, 5000);
+            }
+        });
+        
+        // Real-time validation on blur
+        form.querySelectorAll('input').forEach(input => {
+            input.addEventListener('blur', () => {
+                if (input.id === 'name') {
+                    if (!input.value.trim()) {
+                        showError(input, 'Name is required');
+                    } else if (input.value.trim().length < 2) {
+                        showError(input, 'Name must be at least 2 characters');
+                    } else {
+                        clearError(input);
+                    }
+                }
+                
+                if (input.id === 'email') {
+                    if (!input.value.trim()) {
+                        showError(input, 'Email is required');
+                    } else if (!isValidEmail(input.value.trim())) {
+                        showError(input, 'Please enter a valid email address');
+                    } else {
+                        clearError(input);
+                    }
+                }
+            });
+            
+            // Clear error on input
+            input.addEventListener('input', () => {
+                if (input.classList.contains('error')) {
+                    clearError(input);
+                }
+            });
+        });
+    }
 }
 
 // Add CSS class for animations and active states
