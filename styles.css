@@ -869,11 +869,12 @@ ul {
     overflow: hidden;
     cursor: pointer;
     aspect-ratio: 4/5;
-    transition: all var(--transition-base);
+    transition: all 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
 }
 
 .gallery-item.hidden {
     display: none;
+    pointer-events: none;
 }
 
 .gallery-item img {

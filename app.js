@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initStyleChips();
     initScrollAnimations();
+    initGalleryFilters();
     initLightbox();
 });
 
@@ -144,6 +145,49 @@ function initScrollAnimations() {
         el.style.transform = 'translateY(30px)';
         el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
         observer.observe(el);
+    });
+}
+
+/**
+ * Gallery filter functionality
+ */
+function initGalleryFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    if (filterBtns.length === 0 || galleryItems.length === 0) return;
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+            
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Filter gallery items with animation
+            galleryItems.forEach(item => {
+                const category = item.dataset.category;
+                
+                if (filter === 'all' || category === filter) {
+                    item.classList.remove('hidden');
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.8)';
+                    
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'scale(1)';
+                    }, 50);
+                } else {
+                    item.style.opacity = '0';
+                    item.style.transform = 'scale(0.8)';
+                    
+                    setTimeout(() => {
+                        item.classList.add('hidden');
+                    }, 300);
+                }
+            });
+        });
     });
 }
 
