@@ -30,6 +30,7 @@
             <nav class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#benefits">Benefits</a>
+                <a href="#gallery">Gallery</a>
                 <a href="#testimonials">Reviews</a>
                 <a href="#pricing">Pricing</a>
             </nav>
@@ -292,6 +293,67 @@
             </div>
         </section>
 
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Gallery</span>
+                    <h2 class="section-title">Stunning Transformations</h2>
+                    <p class="section-subtitle">Browse our collection of AI-powered hairstyle transformations</p>
+                </div>
+                <div class="gallery-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="color">Color</button>
+                    <button class="filter-btn" data-filter="cut">Cut</button>
+                    <button class="filter-btn" data-filter="style">Style</button>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="color">
+                        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=500&fit=crop" alt="Blonde balayage transformation">
+                        <div class="gallery-overlay">
+                            <span class="gallery-category">Color</span>
+                            <h4>Blonde Balayage</h4>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-category="cut">
+                        <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=400&h=500&fit=crop" alt="Pixie cut transformation">
+                        <div class="gallery-overlay">
+                            <span class="gallery-category">Cut</span>
+                            <h4>Modern Pixie</h4>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-category="style">
+                        <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=400&h=500&fit=crop" alt="Beachy waves transformation">
+                        <div class="gallery-overlay">
+                            <span class="gallery-category">Style</span>
+                            <h4>Beachy Waves</h4>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-category="color">
+                        <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400&h=500&fit=crop" alt="Rose gold transformation">
+                        <div class="gallery-overlay">
+                            <span class="gallery-category">Color</span>
+                            <h4>Rose Gold</h4>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-category="cut">
+                        <img src="https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=400&h=500&fit=crop" alt="Bob cut transformation">
+                        <div class="gallery-overlay">
+                            <span class="gallery-category">Cut</span>
+                            <h4>Sleek Bob</h4>
+                        </div>
+                    </div>
+                    <div class="gallery-item" data-category="style">
+                        <img src="https://images.unsplash.com/photo-1605980776566-0486c3ac7617?w=400&h=500&fit=crop" alt="Curly transformation">
+                        <div class="gallery-overlay">
+                            <span class="gallery-category">Style</span>
+                            <h4>Natural Curls</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Pricing Section -->
         <section id="pricing" class="pricing">
             <div class="container">
@@ -518,6 +580,38 @@
             </div>
         </div>
     </footer>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+        <div class="lightbox-backdrop"></div>
+        <div class="lightbox-content">
+            <button class="lightbox-close" aria-label="Close lightbox">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+            <button class="lightbox-nav lightbox-prev" aria-label="Previous image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <div class="lightbox-image-container">
+                <img id="lightbox-image" src="" alt="">
+                <div class="lightbox-caption">
+                    <span class="lightbox-category"></span>
+                    <h4 class="lightbox-title"></h4>
+                </div>
+            </div>
+            <button class="lightbox-nav lightbox-next" aria-label="Next image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </button>
+            <div class="lightbox-counter">
+                <span id="lightbox-current">1</span> / <span id="lightbox-total">6</span>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
