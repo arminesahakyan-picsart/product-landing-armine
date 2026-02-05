@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initActiveSection();
     initStyleChips();
     initScrollAnimations();
+    initModal();
 });
 
 /**
@@ -170,6 +171,71 @@ function initScrollAnimations() {
         el.style.transform = 'translateY(30px)';
         el.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
         observer.observe(el);
+    });
+}
+
+/**
+ * CTA Modal functionality
+ */
+function initModal() {
+    const modal = document.getElementById('cta-modal');
+    const modalBackdrop = modal?.querySelector('.modal-backdrop');
+    const modalClose = modal?.querySelector('.modal-close');
+    const openButtons = document.querySelectorAll('[data-open-modal="cta-modal"]');
+    
+    if (!modal) return;
+    
+    // Open modal
+    function openModal() {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus first input
+        setTimeout(() => {
+            const firstInput = modal.querySelector('input');
+            if (firstInput) firstInput.focus();
+        }, 100);
+    }
+    
+    // Close modal
+    function closeModal() {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        
+        // Reset form
+        const form = modal.querySelector('form');
+        if (form) {
+            form.reset();
+            form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+            form.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+        }
+    }
+    
+    // Open modal button clicks
+    openButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal();
+        });
+    });
+    
+    // Close button click
+    if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+    }
+    
+    // Backdrop click
+    if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', closeModal);
+    }
+    
+    // Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
     });
 }
 

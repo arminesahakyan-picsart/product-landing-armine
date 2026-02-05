@@ -33,7 +33,7 @@
                 <a href="#testimonials">Reviews</a>
                 <a href="#pricing">Pricing</a>
             </nav>
-            <a href="#pricing" class="btn btn-primary btn-nav">Get Started</a>
+            <button class="btn btn-primary btn-nav" data-open-modal="cta-modal">Get Started</button>
             <button class="mobile-menu-btn" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
@@ -518,6 +518,58 @@
             </div>
         </div>
     </footer>
+
+    <!-- CTA Modal -->
+    <div id="cta-modal" class="modal" aria-hidden="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-container">
+            <div class="modal-content">
+                <button class="modal-close" aria-label="Close modal">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+                <div class="modal-header">
+                    <div class="modal-icon">
+                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                            <rect width="48" height="48" rx="12" fill="url(#modal-gradient)"/>
+                            <path d="M16 24C16 19.5817 19.5817 16 24 16C28.4183 16 32 19.5817 32 24C32 28.4183 28.4183 32 24 32" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="24" cy="24" r="4" fill="white"/>
+                            <defs>
+                                <linearGradient id="modal-gradient" x1="0" y1="0" x2="48" y2="48">
+                                    <stop stop-color="#7B2BFF"/>
+                                    <stop offset="1" stop-color="#FF2BDB"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <h2 class="modal-title">Start Your Transformation</h2>
+                    <p class="modal-subtitle">Enter your details to get started with AI Hairstyles</p>
+                </div>
+                <form id="cta-form" class="modal-form" novalidate>
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                        <span class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        <span class="error-message"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-large">
+                        Get Started Free
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
+                <p class="modal-footer-text">
+                    By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                </p>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>
