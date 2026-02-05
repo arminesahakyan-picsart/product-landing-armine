@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize all modules
     initNavbar();
     initSmoothScroll();
+    initActiveSection();
     initStyleChips();
     initScrollAnimations();
 });
@@ -20,18 +21,14 @@ function initNavbar() {
     const navLinks = document.querySelector('.nav-links');
     
     // Navbar background on scroll
-    let lastScroll = 0;
-    
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
         
         if (currentScroll > 50) {
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            navbar.classList.add('scrolled');
         } else {
-            navbar.style.boxShadow = 'none';
+            navbar.classList.remove('scrolled');
         }
-        
-        lastScroll = currentScroll;
     });
     
     // Mobile menu toggle
@@ -82,6 +79,36 @@ function initSmoothScroll() {
             }
         });
     });
+}
+
+/**
+ * Active section highlight in navbar
+ */
+function initActiveSection() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    
+    function highlightActiveSection() {
+        const scrollPosition = window.scrollY + 100;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', highlightActiveSection);
+    highlightActiveSection(); // Run on page load
 }
 
 /**
@@ -146,12 +173,33 @@ function initScrollAnimations() {
     });
 }
 
-// Add CSS class for animations
+// Add CSS class for animations and active states
 const style = document.createElement('style');
 style.textContent = `
     .animate-in {
         opacity: 1 !important;
         transform: translateY(0) !important;
+    }
+    
+    .navbar.scrolled {
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.98);
+    }
+    
+    .nav-links a.active {
+        color: var(--primary-purple) !important;
+        position: relative;
+    }
+    
+    .nav-links a.active::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--primary-gradient);
+        border-radius: 2px;
     }
     
     .nav-links.mobile-open {
